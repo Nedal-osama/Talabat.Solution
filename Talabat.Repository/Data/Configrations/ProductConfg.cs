@@ -18,7 +18,7 @@ namespace Talabat.Repository.Data.Configrations
 			builder.Property(p=> p.PictureUrl).IsRequired();
 			builder.Property(p => p.Price).HasColumnType("decimal(18,2)");
 			builder.HasOne(p=>p.Brand).WithMany().HasForeignKey(p=>p.BrandId).OnDelete(DeleteBehavior.Cascade);
-			builder.HasOne(p => p.Category).WithMany().HasForeignKey(p=>p.caregoryId);
+			builder.HasOne(p => p.Category).WithMany().HasForeignKey(p=>p.CategoryId);
 		}
 	}
 }

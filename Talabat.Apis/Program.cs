@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Talabat.Apis.Helpers;
 using Talabat.Core.Entites;
 using Talabat.Core.Repository.Contract;
 using Talabat.Repository;
@@ -27,6 +28,7 @@ namespace Talabat.Apis
 			});
 			;
 			builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+			builder.Services.AddAutoMapper((typeof(MappingProfile)));
 
 			var app = builder.Build();
 			//Ask Clr Explisitly For Creating Object From StoreContext
@@ -36,7 +38,7 @@ namespace Talabat.Apis
 			var loggerFactory=servieces.GetRequiredService<ILoggerFactory>();
 			try
 			{
-				await _dbContext.Database.MigrateAsync();//update database
+				//await _dbContext.Database.MigrateAsync();//update database
 			    await	StoreContextSeed.SeedAsync(_dbContext);//Data Seeding
 			}
 			catch (Exception ex)
@@ -58,7 +60,7 @@ namespace Talabat.Apis
 
 			app.UseAuthorization();
 
-
+			app.UseStaticFiles();
 			app.MapControllers();
 
 			app.Run();
