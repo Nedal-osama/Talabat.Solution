@@ -74,7 +74,7 @@ namespace Talabat.Repository.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Product_caregoryId",
                 table: "Product",
-                column: "caregoryId");
+                column: "CategoryId");
         }
 
         /// <inheritdoc />

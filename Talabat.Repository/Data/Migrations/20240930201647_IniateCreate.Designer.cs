@@ -51,14 +51,14 @@ namespace Talabat.Repository.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("caregoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
 
-                    b.HasIndex("caregoryId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
                 });
@@ -107,7 +107,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasOne("Talabat.Core.Entites.ProductCategory", "Category")
                         .WithMany()
-                        .HasForeignKey("caregoryId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
