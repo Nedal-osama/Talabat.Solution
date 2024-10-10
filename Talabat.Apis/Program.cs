@@ -1,8 +1,13 @@
 
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Talabat.Apis.Erorrs;
+using Talabat.Apis.Extentions;
 using Talabat.Apis.Helpers;
+using Talabat.Apis.MiddelWere;
 using Talabat.Core.Entites;
 using Talabat.Core.Repository.Contract;
 using Talabat.Repository;
@@ -26,9 +31,8 @@ namespace Talabat.Apis
 			{
 				options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 			});
-			;
-			builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-			builder.Services.AddAutoMapper((typeof(MappingProfile)));
+			
+			builder.Services.AddApplicationServices();
 
 			var app = builder.Build();
 			//Ask Clr Explisitly For Creating Object From StoreContext
@@ -50,12 +54,12 @@ namespace Talabat.Apis
 
 
 			// Configure the HTTP request pipeline.
+			app.UseMiddleware<ExceptionMiddelwere>();
 			if (app.Environment.IsDevelopment())
-			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
-
+			{ 
+			app.UseSwaggerMiddelWere();
+			};
+			app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 			app.UseHttpsRedirection();
 
 			app.UseAuthorization();
