@@ -12,6 +12,12 @@ namespace Talabat.Core.Specification
 	{
 		public Expression<Func<T, bool>> Critria { get; set; }
 		public List<Expression<Func<T, object>>> Includes { get; set; }=  new List<Expression<Func<T, object>>>();
+		public Expression<Func<T, object>> OrderBy { get; set ; }
+		public Expression<Func<T, object>> OrderByDesc { get; set; }
+		public int Skip { get ; set ; }
+		public int Take { get ; set ; }
+		public bool IsPagintionEnable { get; set; }
+
 		public BaseSpecification()
         {
 			
@@ -23,5 +29,20 @@ namespace Talabat.Core.Specification
          
         }
 
-    }
+		public void AddOrderBy(Expression<Func<T, object>> orderByExperation)
+		{
+			OrderBy=orderByExperation;
+		}
+		public void AddOrderByDesc(Expression<Func<T, object>> orderByDescExperation)
+		{
+		    OrderByDesc=orderByDescExperation;
+		}
+		public void ApplyPagination(int skip,int take)
+		{
+			IsPagintionEnable = true;
+			Skip=skip;
+			Take=take;
+		}
+
+	}
 }

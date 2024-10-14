@@ -27,13 +27,13 @@ namespace Talabat.Apis.Controllers
 			_mapper = mapper;
 		}
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<ProductDto>>> GetProduct()
+		public async Task<ActionResult<IEnumerable<ProductDto>>> GetProduct([FromQuery]ProductspecParams specParams)
 		{
-			var spec = new ProductWithBrandSpecifiction();
+			var spec = new ProductWithBrandSpecifiction(specParams);
 			var products = await _productRepo.GetAllWithSpecAsync(spec);
 			return Ok(_mapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(products));
 		}
-
+		
 		[ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
 
