@@ -27,6 +27,7 @@ namespace Talabat.Apis.Extentions
 					return new BadRequestObjectResult(response);
 				};
 			});
+			services.AddScoped(typeof(IBasketReposatory),typeof(BasketReposatory));
 			return services;
 		}
 		public static WebApplication UseSwaggerMiddelWere(this WebApplication app)
@@ -37,6 +38,7 @@ namespace Talabat.Apis.Extentions
 			
 			return app;
 		}
+
 	}
 
 }
