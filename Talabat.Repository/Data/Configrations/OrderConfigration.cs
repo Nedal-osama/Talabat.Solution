@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StackExchange.Redis;
 using System;
@@ -20,6 +21,7 @@ namespace Talabat.Repository.Data.Configrations
 				outputStatus =>(OrderStatus) Enum.Parse(typeof(OrderStatus), outputStatus));
 			builder.OwnsOne(o => o.ShippingAddress, shippingAddress => shippingAddress.WithOwner());
 			builder.Property(o => o.SubTotal).HasColumnType("decimal(18,2)");
+			builder.HasOne(o=>o.DeliveryMethod).WithMany().OnDelete(DeleteBehavior.SetNull);
 		}
 	}
 }

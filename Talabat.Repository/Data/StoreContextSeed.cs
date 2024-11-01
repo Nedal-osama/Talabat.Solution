@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Talabat.Core.Entites;
+using Talabat.Core.Order_Aggregrate;
 
 namespace Talabat.Repository.Data
 {
@@ -14,11 +15,11 @@ namespace Talabat.Repository.Data
 		{
 
 			var brandsData = File.ReadAllText("../Talabat.Repository/Data/DataSeeding/brands.json");
-			var brands=JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
+			var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
 
-			if(brands.Count() > 0)
+			if (_dbcontext.ProductBrands.Count() == 0)
 			{
-				if(_dbcontext.ProductBrands.Count() == 0)
+				if (brands?.Count() > 0)
 				{
 					foreach (var brand in brands)
 					{
@@ -26,15 +27,15 @@ namespace Talabat.Repository.Data
 					}
 					await _dbcontext.SaveChangesAsync();
 				}
-				
+
 			}
 
 			var categoryData = File.ReadAllText("../Talabat.Repository/Data/DataSeeding/categories.json");
 			var category = JsonSerializer.Deserialize<List<ProductCategory>>(categoryData);
 
-			if (category.Count() > 0)
+			if (_dbcontext.productCategories.Count() == 0)
 			{
-				if (_dbcontext.productCategories.Count() == 0)
+				if (category.Count() > 0)
 				{
 					foreach (var categorys in category)
 					{
@@ -47,9 +48,8 @@ namespace Talabat.Repository.Data
 			var ProductData = File.ReadAllText("../Talabat.Repository/Data/DataSeeding/products.json");
 			var product = JsonSerializer.Deserialize<List<Product>>(ProductData);
 
-			if (product.Count() > 0)
-			{
-				if (_dbcontext.product.Count() == 0)
+			if (_dbcontext.Products.Count() == 0) { 
+				if (product?.Count>0)
 				{
 					foreach (var products in product)
 					{
@@ -57,10 +57,23 @@ namespace Talabat.Repository.Data
 					}
 					await _dbcontext.SaveChangesAsync();
 				}
+	       	}
 
+			var deliveryData = File.ReadAllText("../Talabat.Repository/Data/DataSeeding/delivery.json");
+			var deliveryMethod = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData);
+
+
+			if (_dbcontext.DeliveryMethods.Count() == 0)
+			{
+				if (deliveryMethod?.Count > 0)
+				{
+					foreach (var method in deliveryMethod)
+					{
+						_dbcontext.Set<DeliveryMethod>().Add(method);
+					}
+					await _dbcontext.SaveChangesAsync();
+				}
 			}
-
-
 
 		}
 	}

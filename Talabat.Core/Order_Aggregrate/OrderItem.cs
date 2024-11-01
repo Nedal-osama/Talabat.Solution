@@ -9,17 +9,18 @@ namespace Talabat.Core.Order_Aggregrate
 {
 	public class OrderItem:BaseEntity
 	{
-		public OrderItem() { }
+		
 
-		public OrderItem(Product product, decimal price, int quantity)
+		public OrderItem(ProductItemOrdered product, decimal price, int quantity)
 		{
 			Product = product;
 			Price = price;
 			Quantity = quantity;
 		}
-
-		public Product Product { get; set; }
+		public OrderItem() { }
+		public ProductItemOrdered Product { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-    }
+
+	}
 }

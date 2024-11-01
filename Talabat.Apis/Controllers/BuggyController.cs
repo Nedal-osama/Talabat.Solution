@@ -18,7 +18,7 @@ namespace Talabat.Apis.Controllers
 		[HttpGet("notfound")] //    api/Buggy/notfound
 		public ActionResult GetNotFoundRequest()
 		{
-			var product = _storeContext.product.Find(100);
+			var product = _storeContext.Products.Find(100);
 			if(product == null)
 			{
 				return NotFound(new ApiResponse(404));
@@ -28,7 +28,7 @@ namespace Talabat.Apis.Controllers
 		[HttpGet("servererror")]
 		public ActionResult GetServerErorr()
 		{
-			var product= _storeContext.product.Find(100);
+			var product= _storeContext.Products.Find(200);
 			var productDto = product.ToString();
 			return Ok(productDto);
 		}

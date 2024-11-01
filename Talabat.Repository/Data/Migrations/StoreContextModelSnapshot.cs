@@ -57,7 +57,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("product");
+                    b.ToTable("product", (string)null);
                 });
 
             modelBuilder.Entity("Talabat.Core.Entites.ProductBrand", b =>
@@ -74,7 +74,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductBrands");
+                    b.ToTable("ProductBrands", (string)null);
                 });
 
             modelBuilder.Entity("Talabat.Core.Entites.ProductCategory", b =>
@@ -91,7 +91,7 @@ namespace Talabat.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("productCategories");
+                    b.ToTable("productCategories", (string)null);
                 });
 
             modelBuilder.Entity("Talabat.Core.Entites.Product", b =>
