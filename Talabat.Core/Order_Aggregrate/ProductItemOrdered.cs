@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace Talabat.Core.Order_Aggregrate
 {
-	public class Product
+	[Owned]
+	public class ProductItemOrdered
 	{
-        public Product()
-        {
-            
-        }
-        public Product(int productId, string productName, string productUrl)
+		public ProductItemOrdered()
+		{
+
+		}
+		public ProductItemOrdered(int productId, string productName, string productUrl)
 		{
 			ProductId = productId;
 			ProductName = productName;

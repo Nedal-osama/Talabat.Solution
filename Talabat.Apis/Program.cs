@@ -10,12 +10,15 @@ using Talabat.Apis.Erorrs;
 using Talabat.Apis.Extentions;
 using Talabat.Apis.Helpers;
 using Talabat.Apis.MiddelWere;
+using Talabat.Core;
 using Talabat.Core.Entites;
 using Talabat.Core.Entites.Identity;
 using Talabat.Core.Repository.Contract;
+using Talabat.Core.Services.Contract;
 using Talabat.Repository;
 using Talabat.Repository.Data;
 using Talabat.Repository.Data.Identity;
+using Talabat.Services;
 
 namespace Talabat.Apis
 {
@@ -51,6 +54,11 @@ namespace Talabat.Apis
 			{
 				
 			}).AddEntityFrameworkStores<AppIdentityDbContext>();
+			builder.Services.AddScoped(typeof(IAuthSearvice), typeof(AuthServices));
+			
+			builder.Services.AddScoped<IOrderService, OrderService>();
+
+
 
 			var app = builder.Build();
 			//Ask Clr Explisitly For Creating Object From StoreContext

@@ -10,13 +10,14 @@ namespace Talabat.Core.Entites
 	public class Product:BaseEntity
 	{
 		[MaxLength(100)]
-        public string Name { get; set; }
+		public string Name { get; set; }
 		public string Description { get; set; }
 		public string PictureUrl { get; set; }
-		public decimal Price { get; set;}
-		public int BrandId { get; set;}//Fk
+		public decimal Price { get; set; }
+		public int BrandId { get; set; }//Fk
 		public ProductBrand Brand { get; set; }
-        public ProductCategory Category { get; set; }
-        public int CategoryId { get; set; }//Fk
-    }
+		public ProductCategory Category { get; set; }
+		public int CategoryId { get; set; }//Fk
+		public string ProductName { get; set; }
+	}
 }
