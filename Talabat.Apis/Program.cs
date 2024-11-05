@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
+using System.Text;
 using Talabat.Apis.Erorrs;
 using Talabat.Apis.Extentions;
 using Talabat.Apis.Helpers;
@@ -26,6 +28,7 @@ namespace Talabat.Apis
 	{
 		public static async Task Main(string[] args)
 		{
+
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
@@ -54,6 +57,21 @@ namespace Talabat.Apis
 			{
 				
 			}).AddEntityFrameworkStores<AppIdentityDbContext>();
+
+			builder.Services.AddAuthentication().AddJwtBearer("Bearer", options =>
+			{
+				options.TokenValidationParameters = new TokenValidationParameters()
+				{
+					ValidateIssuer = true,
+					ValidIssuer = builder.Configuration["Jwt:ValidIssure"],
+					ValidAudience = builder.Configuration["Jwt:ValidAudience"],
+					ValidateLifetime = true,
+					ClockSkew = TimeSpan.Zero,
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:AuthKey"] ?? string.Empty))
+				};
+			});
+			builder.Services.AddAuthentication();
 			builder.Services.AddScoped(typeof(IAuthSearvice), typeof(AuthServices));
 			
 			builder.Services.AddScoped<IOrderService, OrderService>();
@@ -75,6 +93,8 @@ namespace Talabat.Apis
 			    await	StoreContextSeed.SeedAsync(_dbContext);//Data Seeding
 				//await _identityDbContext.Database.MigrateAsync();
 				await AppIdentityDbContextSeed.SeedUserAsync(_usermanger);
+				await _dbContext.Database.MigrateAsync(); // Ensure migrations are applied
+				await StoreContextSeed.SeedAsync(_dbContext);
 			}
 			catch (Exception ex)
 			{

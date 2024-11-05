@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.Apis.Dtos;
@@ -27,12 +29,13 @@ namespace Talabat.Apis.Controllers
 			_categoryRepo = categoryRepo;
 			_mapper = mapper;
 		}
+		[Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<ProductDto>>> GetProduct([FromQuery]ProductspecParams specParams)
+		public async Task<ActionResult<IReadOnlyList<ProductDto>>> GetProduct([FromQuery]ProductspecParams specParams)
 		{
 			var spec = new ProductWithBrandSpecifiction(specParams);
 			var products = await _productRepo.GetAllWithSpecAsync(spec);
-			var Data = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDto>>(products);
+			var Data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>((IReadOnlyList<Product>)products);
 			var countSpec = new ProductWithFilterationForCountSpec(specParams);
 			var count=await _productRepo.GetCountAsync(countSpec);
 			return Ok(new Pagination<ProductDto>(specParams.PageSize, specParams.PageIndex,count, Data));
@@ -40,7 +43,6 @@ namespace Talabat.Apis.Controllers
 		
 		[ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
 		[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-
 		[HttpGet("{id}")]
 		public async Task<ActionResult<ProductDto>> GetProduct(int id)
 		{
@@ -54,14 +56,14 @@ namespace Talabat.Apis.Controllers
 		}
 
 		[HttpGet("brands")]
-		public async Task<ActionResult<IEnumerable<ProductBrand>>> GetBrand()
+		public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrand()
 		{
 			var brands= await _brandsRepo.GetAllAsync();
 			return Ok(brands);
 		}
 
 		[HttpGet("categories")]
-		public async Task<ActionResult<IEnumerable<ProductBrand>>> GetCategory()
+		public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetCategory()
 		{
 			var categories = await _categoryRepo.GetAllAsync();
 			return Ok(categories);

@@ -7,9 +7,10 @@ using Talabat.Core;
 using Talabat.Core.Entites;
 using Talabat.Core.Order_Aggregrate;
 using Talabat.Core.Repository.Contract;
+using Talabat.Repository;
 using Talabat.Repository.Data;
 
-namespace Talabat.Repository
+namespace Talabat.Core
 {
 	public class UniteOfWork : IUnitOfWork
 	{
